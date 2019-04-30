@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {AppState} from './reducers';
+import {LogoutAction} from './auth/auth.actions';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +10,11 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {}
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {}
 
-  logout() {}
+  logout() {
+    this.store.dispatch(new LogoutAction());
+  }
 }

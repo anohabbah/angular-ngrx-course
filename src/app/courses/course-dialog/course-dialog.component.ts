@@ -5,7 +5,7 @@ import {Course} from '../model/course';
 import {CoursesService} from '../services/courses.service';
 
 @Component({
-  selector: 'app-course-dialog',
+  selector: 'course-dialog',
   templateUrl: './course-dialog.component.html',
   styleUrls: ['./course-dialog.component.css']
 })

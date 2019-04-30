@@ -5,10 +5,11 @@ import {Course} from '../model/course';
 import {CoursesService} from '../services/courses.service';
 import {tap} from 'rxjs/operators';
 import {LessonsDataSource} from '../services/lessons.datasource';
-
+import {Store} from '@ngrx/store';
+import {AppState} from '../../reducers';
 
 @Component({
-  selector: 'app-course',
+  selector: 'course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
@@ -19,7 +20,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
   displayedColumns = ['seqNo', 'description', 'duration'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  constructor(private route: ActivatedRoute, private coursesService: CoursesService) {}
+  constructor(private route: ActivatedRoute, private coursesService: CoursesService, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.course = this.route.snapshot.data['course'];

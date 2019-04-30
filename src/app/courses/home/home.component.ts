@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {CoursesService} from '../services/courses.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
