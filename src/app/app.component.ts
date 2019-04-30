@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {AppState} from './reducers';
 import {LogoutAction} from './auth/auth.actions';
-import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {isLoggedIn, isLoggedOut} from './auth/auth.selector';
 
 @Component({
   selector: 'app-root',
@@ -20,12 +20,12 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn$ = this.store
       .pipe(
-        map((state: {auth: {loggedIn: boolean}}) => state.auth.loggedIn)
+        select(isLoggedIn)
       );
 
     this.isLoggedOut$ = this.store
       .pipe(
-        map((state: {auth: {loggedIn: boolean}}) => !state.auth.loggedIn)
+        select(isLoggedOut)
       );
   }
 
