@@ -8,7 +8,7 @@ import {LessonsDataSource} from '../services/lessons.datasource';
 
 
 @Component({
-  selector: 'course',
+  selector: 'app-course',
   templateUrl: './course.component.html',
   styleUrls: ['./course.component.css']
 })
