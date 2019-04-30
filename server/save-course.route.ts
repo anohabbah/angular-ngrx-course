@@ -4,7 +4,7 @@ import {COURSES} from './db-data';
 export function saveCourse(req: Request, res: Response) {
   console.log('Saving course ...');
 
-  const id = req.params['id'],
+  const id = parseInt(req.params['id'], 10),
     changes = req.body;
 
   COURSES[id] = {
@@ -13,6 +13,5 @@ export function saveCourse(req: Request, res: Response) {
   };
 
   res.status(200).json(COURSES[id]);
-
 }
 
