@@ -3,6 +3,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Course} from '../model/course';
 import {CoursesService} from '../services/courses.service';
+import {Store} from '@ngrx/store';
+import {AppState} from '../../reducers';
+import {CourseSaved} from '../course.actions';
+import {Update} from '@ngrx/entity';
 
 @Component({
   selector: 'course-dialog',
@@ -19,7 +23,8 @@ export class CourseDialogComponent implements OnInit {
     private coursesService: CoursesService,
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CourseDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) course: Course
+    @Inject(MAT_DIALOG_DATA) course: Course,
+    private store: Store<AppState>
   ) {
 
     this.courseId = course.id;
@@ -38,10 +43,13 @@ export class CourseDialogComponent implements OnInit {
   save() {
     const changes = this.form.value;
 
-    this.coursesService.saveCourse(this.courseId, changes)
-      .subscribe(
-        () => this.dialogRef.close()
-      );
+    this.coursesService
+      .saveCourse(this.courseId, changes)
+      .subscribe(() => {
+        const course: Update<Course> = {id: this.courseId, changes };
+        this.store.dispatch(new CourseSaved({ course }));
+        this.dialogRef.close();
+      });
   }
 
   close() {
