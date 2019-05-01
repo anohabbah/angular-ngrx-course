@@ -4,6 +4,8 @@ import {AppState} from './reducers';
 import {LogoutAction} from './auth/auth.actions';
 import {Observable} from 'rxjs';
 import {isLoggedIn, isLoggedOut} from './auth/auth.selector';
+import {Router} from '@angular/router';
+import {tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,7 @@ export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
   isLoggedOut$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.store
@@ -31,5 +33,6 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.store.dispatch(new LogoutAction());
+    this.router.navigateByUrl('/');
   }
 }

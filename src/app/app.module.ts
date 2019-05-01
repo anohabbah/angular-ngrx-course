@@ -15,13 +15,14 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import {AuthGuard} from './auth/auth.guard';
 
 
 const routes: Routes = [
   {
     path: 'courses',
     loadChildren: './courses/courses.module#CoursesModule',
-    canActivate: [],
+    canActivate: [AuthGuard],
   },
   {
     path: '**',
