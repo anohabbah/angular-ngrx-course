@@ -1,10 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {CourseActionTypes, CourseLoaded, CourseRequested} from './course.actions';
+import {AllCoursesLoaded, AllCoursesRequested, CourseActionTypes, CourseLoaded, CourseRequested} from './course.actions';
 import {Observable, of} from 'rxjs';
 import {CoursesService} from './services/courses.service';
-import {map, mergeMap} from 'rxjs/operators';
+import {filter, map, mergeMap, withLatestFrom} from 'rxjs/operators';
 import {Course} from './model/course';
+import {select, Store} from '@ngrx/store';
+import {AppState} from '../reducers';
+import {allCoursesLoaded} from './course.selectors';
 
 @Injectable()
 export class CourseEffects {
@@ -13,11 +16,20 @@ export class CourseEffects {
     .pipe(
       ofType<CourseRequested>(CourseActionTypes.CourseRequested),
       mergeMap((action: CourseRequested) => {
-        console.log(action);
         return this.coursesService.findCourseById(action.payload.courseId);
       }),
       map((course: Course) => new CourseLoaded({course}))
     );
 
-  constructor(private actions$: Actions, private coursesService: CoursesService) {}
+  @Effect()
+  loadAllCourses$: Observable<AllCoursesLoaded> = this.actions$
+    .pipe(
+      ofType<AllCoursesRequested>(CourseActionTypes.AllCoursesRequested),
+      withLatestFrom(this.store.pipe(select(allCoursesLoaded))),
+      filter(([action, coursesLoaded]) => !coursesLoaded),
+      mergeMap(() => this.coursesService.findAllCourses()),
+      map((courses: Course[]) => new AllCoursesLoaded({ courses }))
+    );
+
+  constructor(private actions$: Actions, private coursesService: CoursesService, private store: Store<AppState>) {}
 }
