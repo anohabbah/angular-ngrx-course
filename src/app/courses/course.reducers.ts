@@ -1,0 +1,24 @@
+import {Course} from './model/course';
+import {createEntityAdapter, EntityAdapter, EntityState} from '@ngrx/entity';
+import {CourseActions, CourseActionTypes} from './course.actions';
+
+// tslint:disable-next-line:no-empty-interface
+export interface CoursesState extends EntityState<Course> {
+}
+
+// tslint:disable-next-line:no-empty-interface
+// export interface LessonsState  extends EntityState<Lesson> {}
+
+export const adapter: EntityAdapter<Course> = createEntityAdapter<Course>();
+
+export const initialCoursesState = adapter.getInitialState();
+
+export function coursesReducer(state: CoursesState = initialCoursesState, action: CourseActions): CoursesState {
+  switch (action.type) {
+    case CourseActionTypes.CourseLoaded:
+      return adapter.addOne(action.payload.course, state);
+
+    default:
+      return state;
+  }
+}
