@@ -24,11 +24,11 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterModule, Routes} from '@angular/router';
-import { StoreModule } from '@ngrx/store';
-import * as fromCourseState from './course.reducers';
+import {StoreModule} from '@ngrx/store';
 import {coursesReducer} from './course.reducers';
 import {EffectsModule} from '@ngrx/effects';
 import {CourseEffects} from './course.effects';
+import {lessonsReducer} from './lessons.reducer';
 
 
 export const coursesRoutes: Routes = [
@@ -66,6 +66,7 @@ export const coursesRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forChild(coursesRoutes),
     StoreModule.forFeature('courses', coursesReducer),
+    StoreModule.forFeature('lessons', lessonsReducer),
     EffectsModule.forFeature([CourseEffects])
   ],
   declarations: [HomeComponent, CoursesCardListComponent, CourseDialogComponent, CourseComponent],
